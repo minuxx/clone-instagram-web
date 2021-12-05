@@ -17,6 +17,7 @@ function Login() {
   });
 
   const { id, password, idError, passwordError, isValidate } = form;
+  const onSubmit = () => {};
 
   return (
     <section className="container h-screen flex justify-center items-center bg-gray-50">

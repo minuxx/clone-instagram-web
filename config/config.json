@@ -2,7 +2,7 @@
   "development": {
     "username": "web32",
     "password": "Minux0229!",
-    "database": "instagram",
+    "database": "web32",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
