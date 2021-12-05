@@ -1,0 +1,13 @@
+{
+  "name": "instagram",
+  "version": "0.0.1",
+  "description": "Instagram Clone Coding with Express, React",
+  "main": "app.js",
+  "repository": "https://github.com/minuxx/clone-instagram.git",
+  "author": "minuxx <minux8905@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon app"
+  }
+}
