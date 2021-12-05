@@ -3,8 +3,21 @@ import logo from "../../assets/logo-instagram-text.png";
 import facebookLogo from "../../assets/logo-facebook.png";
 import icAppStore from "../../assets/ic-app-store.png";
 import icGooglePlay from "../../assets/ic-google-play.png";
+import useInputs from "../../hooks/useInputs";
+import { useCallback, useState } from "react";
 
 function Login() {
+  const [form, onChange] = useInputs({
+    id: "",
+    password: "",
+
+    idError: "",
+    passwordError: "",
+    isValidate: false,
+  });
+
+  const { id, password, idError, passwordError, isValidate } = form;
+
   return (
     <section className="container h-screen flex justify-center items-center bg-gray-50">
       <article className="flex w-2/4 justify-center">
@@ -18,6 +31,8 @@ function Login() {
                 type="email"
                 name="id"
                 maxLength="75"
+                value={id}
+                onChange={onChange}
                 className="w-full form-input px-2 py-1.5 border-gray-300 rounded-sm bg-gray-50 text-xs focus:border-gray-700 focus:ring-0 mb-1"
                 placeholder="전화번호, 사용자 이름 또는 이메일"
               />
@@ -26,13 +41,17 @@ function Login() {
                 type="password"
                 name="password"
                 maxLength="75"
+                value={password}
+                onChange={onChange}
                 className="w-full form-input px-2 py-1.5 border-gray-300 rounded-sm bg-gray-50 text-xs focus:border-gray-700 focus:ring-0 mb-3"
                 placeholder="비밀번호"
               />
 
               <button
                 type="submit"
-                className="w-full bg-blue-300 bg-opacity-50 rounded text-white text-xs font-bold p-1 cursor-default"
+                className={`w-full ${
+                  !isValidate && "bg-opacity-50"
+                } bg-blue-500 rounded text-white text-xs font-bold p-1 cursor-default`}
               >
                 로그인
               </button>
