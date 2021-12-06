@@ -4,7 +4,7 @@ import facebookLogo from "../../assets/logo-facebook.png";
 import icAppStore from "../../assets/ic-app-store.png";
 import icGooglePlay from "../../assets/ic-google-play.png";
 import useInputs from "../../hooks/useInputs";
-import { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [form, onChange] = useInputs({
@@ -84,9 +84,12 @@ function Login() {
 
           <div className="flex flex-row w-full border border-gray-300 bg-white justify-center py-4 text-xs mb-4">
             계정이 없으신가요?
-            <span className="text-xs text-blue-500 font-bold ml-1 cursor-pointer">
+            <Link
+              className="text-xs text-blue-500 font-bold ml-1 cursor-pointer"
+              to="/account"
+            >
               가입하기
-            </span>
+            </Link>
           </div>
 
           <div className="flex flex-row w-full justify-center text-xs font-light mb-4">

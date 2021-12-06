@@ -2,10 +2,11 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post("/join", async (req, res, next) => {
+authRouter.post("/join", async (req, res, next) => {
   const { email, name, id, password } = req.body;
+  console.log(req.body);
 
   try {
     const exUser = await User.findOne({ where: { id } });
@@ -27,3 +28,5 @@ router.post("/join", async (req, res, next) => {
     return next(error);
   }
 });
+
+module.exports = authRouter;

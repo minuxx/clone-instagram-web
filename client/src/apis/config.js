@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://web.expertly.info:8032";
+const BASE_URL = "http://web.expertly.info:8032";
 
 const client = axios.create({
   baseURL: BASE_URL,
@@ -8,7 +8,6 @@ const client = axios.create({
   headers: {
     accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:3000",
   },
 });
 
