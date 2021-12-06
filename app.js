@@ -5,7 +5,6 @@ const path = require("path");
 const session = require("express-session");
 const dotenv = require("dotenv");
 const authRouter = require("./routes/auth");
-const cors = require("cors");
 
 dotenv.config();
 const { sequelize } = require("./models");
@@ -25,7 +24,6 @@ app.set("port", process.env.PORT || 8032);
 
 app.use(morgan("dev"));
 const client = path.join(__dirname, "client/build");
-console.log(client);
 app.use(express.static(client));
 app.use(express.json());
 
@@ -52,14 +50,3 @@ app.get("*", function (req, res) {
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
 });
-
-function corsCheck(req, callback) {
-  let corsOptions;
-  const acceptList = ["https://web.expertly.info:8032"];
-  if (acceptList.indexOf(req.header("Origin")) !== -1) {
-    corsOptions = { origin: true, credential: true };
-  } else {
-    corsOptions = { origin: false };
-  }
-  callback(null, corsOptions);
-}

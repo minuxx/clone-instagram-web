@@ -4,29 +4,48 @@ import icAppStore from "../../assets/ic-app-store.png";
 import icGooglePlay from "../../assets/ic-google-play.png";
 import useInputs from "../../hooks/useInputs";
 import { signUpApi } from "../../apis";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 function Join() {
+  const navigate = useNavigate();
   const [form, onChange] = useInputs({
     email: "",
     name: "",
     id: "",
     password: "",
-
-    idError: "",
-    passwordError: "",
     isValidate: false,
   });
 
-  const { email, name, id, password, idError, passwordError, isValidate } =
-    form;
+  const [error, setError] = useState({
+    validationError: "",
+    serverError: "",
+  });
+
+  const { email, name, id, password, isValidate } = form;
 
   const onSubmit = async () => {
     try {
       const response = await signUpApi({ email, name, id, password });
-      console.log("response: ");
       console.log(response);
+      handleResponse(response);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const handleResponse = (res) => {
+    const code = res.code;
+    switch (code) {
+      case 200:
+        navigate("/", { replace: true });
+        break;
+      case 400:
+        alert(res.message);
+        break;
+      case 402:
+        setError((error) => ({ ...error, validationError: res.message }));
+        break;
     }
   };
 
