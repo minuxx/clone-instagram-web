@@ -36,12 +36,12 @@ function Join() {
         <div className="flex flex-col w-72">
           <div className="flex flex-col w-full border border-gray-300 bg-white items-center py-8 mb-4">
             <img src={logo} alt="logo" className="w-32 mb-7" />
-            <form className="flex flex-col w-10/12 items-center mb-3">
+            <div className="flex flex-col w-10/12 items-center mb-3">
               <input
                 type="email"
                 name="email"
                 maxLength="75"
-                value={id}
+                value={email}
                 onChange={onChange}
                 className="w-full form-input px-2 py-1.5 border-gray-300 rounded-sm bg-gray-50 text-xs focus:border-gray-700 focus:ring-0 mb-1"
                 placeholder="이메일"
@@ -59,7 +59,7 @@ function Join() {
 
               <input
                 type="text"
-                name="name"
+                name="id"
                 maxLength="45"
                 value={id}
                 onChange={onChange}
@@ -86,7 +86,7 @@ function Join() {
               >
                 가입
               </button>
-            </form>
+            </div>
 
             <div className="w-10/12 flex flex-row justify-center items-center mb-8">
               <div className="flex-1 h-px bg-gray-200"></div>
