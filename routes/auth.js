@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 const User = require("../models/user");
 const createRes = require("../utils/common");
 const { validateEmail } = require("../middlewares/validation");
@@ -28,6 +29,31 @@ router.post("/join", validateEmail, async (req, res, next) => {
     console.log(error);
     return res.json(createRes(400, false, "회원가입에 실패했습니다."));
   }
+});
+
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (authError, user, info) => {
+    console.log("authError");
+    console.log(authError);
+    console.log("user");
+    console.log(user);
+    console.log("info");
+    console.log(info);
+
+    if (authError || !user) {
+      console.error(authError);
+      return res.json(info);
+    }
+
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        console.error(loginError);
+        return next(loginError);
+      }
+
+      return res.json(createRes(200, true, "로그인에 성공했습니다."));
+    });
+  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 });
 
 module.exports = router;

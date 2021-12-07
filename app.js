@@ -5,12 +5,14 @@ const path = require("path");
 const session = require("express-session");
 const dotenv = require("dotenv");
 const authRouter = require("./routes/auth");
+const passport = require("passport");
+const passportConfig = require("./passport");
 
 dotenv.config();
 const { sequelize } = require("./models");
 
 const app = express();
-
+passportConfig();
 sequelize
   .sync({ force: false })
   .then(() => {
@@ -40,6 +42,8 @@ app.use(
     },
   }),
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/users", authRouter);
 

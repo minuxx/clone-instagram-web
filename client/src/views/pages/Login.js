@@ -5,6 +5,7 @@ import icAppStore from "../../assets/ic-app-store.png";
 import icGooglePlay from "../../assets/ic-google-play.png";
 import useInputs from "../../hooks/useInputs";
 import { Link } from "react-router-dom";
+import { loginApi } from "../../apis/auth";
 
 function Login() {
   const [form, onChange] = useInputs({
@@ -17,7 +18,32 @@ function Login() {
   });
 
   const { id, password, idError, passwordError, isValidate } = form;
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      const response = await loginApi({ id, password });
+      console.log(response);
+      handleResponse(response);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleResponse = (res) => {
+    const code = res.code;
+    switch (code) {
+      case 200:
+        // navigate("/", { replace: true });
+        console.log("성공");
+        break;
+
+      case 400:
+
+      case 401:
+        alert(res.message);
+        // setError((error) => ({ ...error, validationError: res.message }));
+        break;
+    }
+  };
 
   return (
     <section className="container h-screen flex justify-center items-center bg-gray-50">
@@ -50,6 +76,7 @@ function Login() {
 
               <button
                 type="submit"
+                onClick={onSubmit}
                 className={`w-full ${
                   !isValidate && "bg-opacity-50"
                 } bg-blue-500 rounded text-white text-xs font-bold p-1 cursor-default`}
