@@ -33,13 +33,6 @@ router.post("/join", validateEmail, async (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (authError, user, info) => {
-    console.log("authError");
-    console.log(authError);
-    console.log("user");
-    console.log(user);
-    console.log("info");
-    console.log(info);
-
     if (authError || !user) {
       console.error(authError);
       return res.json(info);
@@ -48,12 +41,12 @@ router.post("/login", (req, res, next) => {
     return req.login(user, (loginError) => {
       if (loginError) {
         console.error(loginError);
-        return next(loginError);
+        return res.json(createRes(400, false, "로그인에 실패했습니다."));
       }
 
       return res.json(createRes(200, true, "로그인에 성공했습니다."));
     });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+  })(req, res, next);
 });
 
 module.exports = router;

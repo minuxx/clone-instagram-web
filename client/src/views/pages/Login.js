@@ -6,8 +6,10 @@ import icGooglePlay from "../../assets/ic-google-play.png";
 import useInputs from "../../hooks/useInputs";
 import { Link } from "react-router-dom";
 import { loginApi } from "../../apis/auth";
+import { useNavigate } from "react-router";
 
 function Login() {
+  const navigate = useNavigate();
   const [form, onChange] = useInputs({
     id: "",
     password: "",
@@ -32,7 +34,7 @@ function Login() {
     const code = res.code;
     switch (code) {
       case 200:
-        // navigate("/", { replace: true });
+        navigate("/main", { replace: true });
         console.log("성공");
         break;
 
