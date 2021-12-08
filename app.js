@@ -47,10 +47,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/users", authRouter);
-
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "/client/build/index.html"));
+app.get("/", function (req, res) {
+  if (req.isAuthenticated()) {
+    res.redirect("/home");
+  } else {
+    res.sendFile(path.join(__dirname, "/client/build/index.html"));
+  }
 });
+
+// app.get("*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "/client/build/index.html"));
+// });
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");

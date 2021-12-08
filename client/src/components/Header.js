@@ -7,23 +7,21 @@ import logo from "../assets/logo-instagram-text.png";
 
 function Header() {
   return (
-    <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+    <div className="flex max-w-screen-md justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div className="flex justify-start lg:w-0 lg:flex-1">
         <a href="#">
-          <img src={logo} />
+          <img className="h-8 w-auto sm:h-10" src={logo} alt="logo image" />
         </a>
       </div>
 
       <input placeholder="검색" />
 
       <nav className="hidden md:flex space-x-10">
-        <div className="relatice">
-          <img src={icHomeWhite} />
-          <img src={icDmBlack} />
-          <img src={icPostWhite} />
-          <img src={icCompassWhite} />
-          <img src={icHeartWhite} />
-        </div>
+        <img className="relative" src={icHomeWhite} />
+        <img className="relative" src={icDmBlack} />
+        <img className="relative" src={icPostWhite} />
+        <img className="relative" src={icCompassWhite} />
+        <img className="relative" src={icHeartWhite} />
       </nav>
     </div>
   );
