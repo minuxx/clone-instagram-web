@@ -4,9 +4,10 @@ const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const dotenv = require("dotenv");
-const authRouter = require("./routes/auth");
 const passport = require("passport");
 const passportConfig = require("./passport");
+const authRouter = require("./routes/auth");
+const pageRouter = require("./routes/page");
 
 dotenv.config();
 const { sequelize } = require("./models");
@@ -25,8 +26,7 @@ sequelize
 app.set("port", process.env.PORT || 8032);
 
 app.use(morgan("dev"));
-const client = path.join(__dirname, "client/build");
-app.use(express.static(client));
+app.use(express.static(path.join(__dirname, "client/build")));
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
@@ -46,18 +46,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/", pageRouter);
 app.use("/users", authRouter);
-app.get("/", function (req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect("/home");
-  } else {
-    res.sendFile(path.join(__dirname, "/client/build/index.html"));
-  }
-});
-
-// app.get("*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "/client/build/index.html"));
-// });
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");

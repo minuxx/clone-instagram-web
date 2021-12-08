@@ -5,18 +5,14 @@ import Join from "./views/pages/Join";
 import Layout from "./layout/Layout";
 import "./index.css";
 import Header from "./components/Header";
+import { checkLogin } from "./utils/storage/storageManager";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={checkLogin() ? <Header /> : <Login />} />
         <Route exact path="/account" element={<Join />} />
-<<<<<<< HEAD
-        <Route path="/main" element={<Layout />}></Route>
-=======
-        <Route path="/home" element={<Header />}></Route>
->>>>>>> 47c88c8b5c41a6f9346b15771b88af47099c7497
       </Routes>
     </BrowserRouter>
   );

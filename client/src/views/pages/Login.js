@@ -7,6 +7,7 @@ import useInputs from "../../hooks/useInputs";
 import { Link } from "react-router-dom";
 import { loginApi } from "../../apis/auth";
 import { useNavigate } from "react-router";
+import { setLoginStorage } from "../../utils/storage";
 
 function Login() {
   const navigate = useNavigate();
@@ -34,8 +35,10 @@ function Login() {
     const code = res.code;
     switch (code) {
       case 200:
-        navigate("/main", { replace: true });
-        console.log("성공");
+        // navigate("/home", { replace: true });
+        // console.log("성공");
+        console.log(res);
+        setLoginStorage(true, res.result.jwt);
         break;
 
       case 400:
