@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./views/pages/Login";
 import Join from "./views/pages/Join";
 import "./index.css";
+import Header from "./components/Header";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route exact path="/account" element={<Join />} />
-        <Route path="/home"></Route>
+        <Route path="/home" element={<Header />}></Route>
       </Routes>
     </BrowserRouter>
   );
