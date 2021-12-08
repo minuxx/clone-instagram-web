@@ -35,16 +35,13 @@ function Login() {
     const code = res.code;
     switch (code) {
       case 200:
-        // navigate("/home", { replace: true });
-        // console.log("성공");
-        console.log(res);
         setLoginStorage(true, res.result.jwt);
+        navigate("/home");
         break;
-
       case 400:
 
       case 401:
-        alert(res.message);
+        console.log(res.message);
         // setError((error) => ({ ...error, validationError: res.message }));
         break;
     }

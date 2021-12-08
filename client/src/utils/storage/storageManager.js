@@ -22,7 +22,7 @@ export function getJwt() {
   return typeof jwt === "string" ? jwt : "";
 }
 
-export function setLoginStorage(isLogined, jwt) {
+export async function setLoginStorage(isLogined, jwt) {
   storageSet("isLogined", isLogined);
   storageSet("jwt", jwt);
 }

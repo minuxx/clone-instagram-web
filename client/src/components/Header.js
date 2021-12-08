@@ -4,12 +4,9 @@ import icPostWhite from "../assets/ic_post_white.png";
 import icCompassWhite from "../assets/ic_compass_white.png";
 import icHeartWhite from "../assets/ic_heart_white.png";
 import logo from "../assets/logo-instagram-text.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Header() {
-  const location = useLocation();
-  console.log(location.pathname);
-
   return (
     <div className="h-54 relative bg-white border-b-2 border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
