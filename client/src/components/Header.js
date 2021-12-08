@@ -15,9 +15,9 @@ function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center py-1 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <a href="#">
+            <Link className="relative" to="/home">
               <img className="h-8 w-auto sm:h-10" src={logo} alt="logo image" />
-            </a>
+            </Link>
           </div>
 
           <div className="lg:flex-1 flex justify-center items-center">
@@ -28,11 +28,11 @@ function Header() {
           </div>
 
           <nav className="lg:flex-1 hidden md:flex justify-end space-x-4">
-            <Link className="relative" to="/main">
+            <Link className="relative" to="/home">
               <img src={icHomeWhite} />
             </Link>
 
-            <Link className="relative" to="/dm">
+            <Link className="relative" to="/msg">
               <img src={icDmBlack} />
             </Link>
 
