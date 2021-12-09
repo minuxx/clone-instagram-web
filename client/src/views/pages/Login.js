@@ -7,7 +7,8 @@ import useInputs from "../../hooks/useInputs";
 import { Link } from "react-router-dom";
 import { loginApi } from "../../apis/auth";
 import { useNavigate } from "react-router";
-import { setLoginStorage } from "../../utils/storage";
+import { checkLogin, setLoginStorage } from "../../utils/storage";
+import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,6 +20,12 @@ function Login() {
     passwordError: "",
     isValidate: false,
   });
+
+  useEffect(() => {
+    if (checkLogin()) {
+      navigate("/home");
+    }
+  }, []);
 
   const { id, password, idError, passwordError, isValidate } = form;
   const onSubmit = async () => {
@@ -36,7 +43,7 @@ function Login() {
     switch (code) {
       case 200:
         setLoginStorage(true, res.result.jwt);
-        navigate("/home");
+        navigate("/home", { replace: true });
         break;
       case 400:
 

@@ -5,9 +5,12 @@ import { checkLogin } from "../../utils/storage";
 
 function Main() {
   const navigate = useNavigate();
-  if (!checkLogin()) {
-    navigate("/");
-  }
+
+  useEffect(() => {
+    if (!checkLogin()) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div>
