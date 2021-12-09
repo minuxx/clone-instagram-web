@@ -1,12 +1,17 @@
 import icHomeWhite from "../assets/ic_home_white.png";
-import icDmBlack from "../assets/ic_dm_black.png";
+import icHomeBlack from "../assets/ic_home_black.png";
+import icMsgWhite from "../assets/ic_message_white.png";
+import icMsgBlack from "../assets/ic_message_black.png";
 import icPostWhite from "../assets/ic_post_white.png";
-import icCompassWhite from "../assets/ic_compass_white.png";
+import icPostBlack from "../assets/ic_post_black.png";
 import icHeartWhite from "../assets/ic_heart_white.png";
+import icHeartBlack from "../assets/ic_heart_black.png";
 import logo from "../assets/logo-instagram-text.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header() {
+  const location = useLocation();
+
   return (
     <div className="h-54 relative bg-white border-b-2 border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -26,23 +31,29 @@ function Header() {
 
           <nav className="lg:flex-1 hidden md:flex justify-end space-x-4">
             <Link className="relative" to="/home">
-              <img src={icHomeWhite} />
+              <img
+                src={location.pathname == "/home" ? icHomeBlack : icHomeWhite}
+              />
             </Link>
 
             <Link className="relative" to="/msg">
-              <img src={icDmBlack} />
+              <img
+                src={location.pathname == "/msg" ? icMsgBlack : icMsgWhite}
+              />
             </Link>
 
             <Link className="relative" to="/new">
-              <img src={icPostWhite} />
+              <img
+                src={location.pathname == "/new" ? icPostBlack : icPostWhite}
+              />
             </Link>
 
-            <Link className="relative" to="/compass">
-              <img src={icCompassWhite} />
-            </Link>
-
-            <Link className="relative" to="/heart">
-              <img src={icHeartWhite} />
+            <Link className="relative" to="/follow">
+              <img
+                src={
+                  location.pathname == "/follow" ? icHeartBlack : icHeartWhite
+                }
+              />
             </Link>
           </nav>
         </div>
