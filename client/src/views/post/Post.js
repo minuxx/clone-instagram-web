@@ -2,33 +2,8 @@ import icFileUpload from "../../assets/ic_file_upload.png";
 import icCancelGray from "../../assets/ic_cancel_gray.png";
 import { useState } from "react";
 
-// const localImgs = [
-//   {
-//     file: null,
-//     url: "https://img.etoday.co.kr/pto_db/2020/07/600/20200719224427_1486417_640_437.jpg",
-//   },
-
-//   "https://img.etoday.co.kr/pto_db/2020/07/600/20200719224427_1486417_640_437.jpg",
-//   "https://img.etoday.co.kr/pto_db/2020/07/600/20200719224427_1486417_640_437.jpg",
-//   "https://img.etoday.co.kr/pto_db/2020/07/600/20200719224427_1486417_640_437.jpg",
-//   "https://img.etoday.co.kr/pto_db/2020/07/600/20200719224427_1486417_640_437.jpg",
-// ];
-
 function Post() {
   const [localImgs, setLocalImgs] = useState([]);
-
-  const handleImgFile = (file) => {
-    if (file === null) return;
-
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      if (typeof reader.result === "string") {
-        setLocalImgs((locals) => [...locals, { file, url: reader.result }]);
-      }
-    };
-
-    reader.readAsDataURL(file);
-  };
 
   const onFileChange = (e) => {
     if (localImgs.length >= 5) {
@@ -43,6 +18,19 @@ function Post() {
     }
   };
 
+  const handleImgFile = (file) => {
+    if (file === null) return;
+
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        setLocalImgs((locals) => [...locals, { file, url: reader.result }]);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   const onFileRemove = (idx) => {
     setLocalImgs((locals) => locals.filter((local, index) => index != idx));
   };
@@ -52,7 +40,7 @@ function Post() {
       <header className="flex p-2 border-b-2">
         <div className="flex-1"></div>
         <div className="text-xl font-semibold flex-1 text-center">새 게시물 만들기</div>
-        <div className="text-sm font-medium text-blue-500 flex-1 flex justify-end items-center cursor-pointer">공유하기</div>
+        <div className="text-sm font-semibold text-blue-500 flex-1 flex justify-end items-center cursor-pointer">공유하기</div>
       </header>
 
       <div className="grid grid-cols-3 h-96">
@@ -86,7 +74,21 @@ function Post() {
           </label>
         </div>
 
-        <div className="col-span-1 p-1">2</div>
+        <div className="col-span-1 p-1">
+          <header className="flex flex-row p-2 items-center">
+            <img
+              className="w-9 h-9 rounded-full mr-1"
+              src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUxTOW_cyUF77dOlJ2ThrmToPMsadKgUIuTA&usqp=CAU"}
+              alt="profile image"
+            />
+            <div className="text-sm font-semibold">{"한소희"}</div>
+          </header>
+          <textarea
+            className="w-full h-3/5 border-0 bg-transparent focus:ring-transparent resize-none"
+            placeholder="문구 입력..."
+            maxLength={2200}
+          ></textarea>
+        </div>
       </div>
     </div>
   );
