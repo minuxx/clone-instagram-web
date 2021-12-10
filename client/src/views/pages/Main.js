@@ -17,7 +17,7 @@ function Main() {
     <div>
       <Header />
 
-      <Content />
+      <Content className="font-sans" />
     </div>
   );
 }
