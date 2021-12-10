@@ -3,10 +3,10 @@ import icCancelGray from "../../assets/ic_cancel_gray.png";
 import { useCallback, useState } from "react";
 import useInputs from "../../hooks/useInputs";
 import { handleFirebaseUpload } from "../../utils/firebase/storage";
+import { async } from "@firebase/util";
 
 function Post() {
   const [localImgs, setLocalImgs] = useState([]);
-  const [urlsOnFirebase, setUrlsOnFirebase] = useState([]);
   const [form, onChange] = useInputs({
     content: "",
   });
@@ -54,9 +54,33 @@ function Post() {
       return;
     }
 
-    const url = await handleFirebaseUpload("/post", localImgs[0].file);
-    console.log(url);
+    const hashtags = extractHashtags();
+    if (!hashtags) return;
+    console.log(hashtags);
+
+    const urlsOnFirebase = [];
+
+    for (let localImg of localImgs) {
+      const url = await handleFirebaseUpload("/post", localImg.file);
+      urlsOnFirebase.push(url);
+    }
+
+    console.log(urlsOnFirebase);
   }, [content, localImgs]);
+
+  const extractHashtags = () => {
+    const hashtags = content.match(/#\w+/g);
+    if (hashtags == null) return true;
+
+    const checkLength = hashtags.filter((hastag) => hastag.length > 31);
+
+    if (checkLength.length > 0) {
+      alert("해시태그의 길이는 30자이하여야 합니다.");
+      return false;
+    }
+
+    return hashtags;
+  };
 
   return (
     <div className="border border-gray-200 rounded-sm">
@@ -99,7 +123,7 @@ function Post() {
           </label>
         </div>
 
-        <div className="col-span-1 p-1">
+        <div className="col-span-1 p-1 flex flex-col">
           <header className="flex flex-row p-2 items-center">
             <img
               className="w-9 h-9 rounded-full mr-1"
@@ -109,14 +133,14 @@ function Post() {
             <div className="text-sm font-semibold">{"한소희"}</div>
           </header>
           <textarea
-            className="w-full h-3/5 border-0 bg-transparent focus:ring-transparent resize-none"
+            className="w-full h-3/5 border-0 bg-transparent focus:ring-transparent resize-none flex-1 p-1.5"
             placeholder="문구 입력..."
             maxLength={2200}
             name="content"
             value={content}
             onChange={onChange}
           ></textarea>
-          <div className="text-xs text-gray-300 float-right">{content.length}/2,200</div>
+          <div className="text-xs text-gray-300 ml-auto">{content.length}/2,200</div>
         </div>
       </div>
     </div>
