@@ -1,9 +1,17 @@
 import icFileUpload from "../../assets/ic_file_upload.png";
 import icCancelGray from "../../assets/ic_cancel_gray.png";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import useInputs from "../../hooks/useInputs";
+import { handleFirebaseUpload } from "../../utils/firebase/storage";
 
 function Post() {
   const [localImgs, setLocalImgs] = useState([]);
+  const [urlsOnFirebase, setUrlsOnFirebase] = useState([]);
+  const [form, onChange] = useInputs({
+    content: "",
+  });
+
+  const { content } = form;
 
   const onFileChange = (e) => {
     if (localImgs.length >= 5) {
@@ -35,12 +43,29 @@ function Post() {
     setLocalImgs((locals) => locals.filter((local, index) => index != idx));
   };
 
+  const onPost = useCallback(async () => {
+    if (content.length == 0) {
+      alert("문구를 입력해주세요.");
+      return;
+    }
+
+    if (localImgs.length == 0) {
+      alert("사진을 1개 이상 올려주세요.");
+      return;
+    }
+
+    const url = await handleFirebaseUpload("/post", localImgs[0].file);
+    console.log(url);
+  }, [content, localImgs]);
+
   return (
     <div className="border border-gray-200 rounded-sm">
       <header className="flex p-2 border-b-2">
         <div className="flex-1"></div>
         <div className="text-xl font-semibold flex-1 text-center">새 게시물 만들기</div>
-        <div className="text-sm font-semibold text-blue-500 flex-1 flex justify-end items-center cursor-pointer">공유하기</div>
+        <div className="text-sm font-semibold text-blue-500 flex-1 flex justify-end items-center cursor-pointer" onClick={onPost}>
+          공유하기
+        </div>
       </header>
 
       <div className="grid grid-cols-3 h-96">
@@ -87,7 +112,11 @@ function Post() {
             className="w-full h-3/5 border-0 bg-transparent focus:ring-transparent resize-none"
             placeholder="문구 입력..."
             maxLength={2200}
+            name="content"
+            value={content}
+            onChange={onChange}
           ></textarea>
+          <div className="text-xs text-gray-300 float-right">{content.length}/2,200</div>
         </div>
       </div>
     </div>
