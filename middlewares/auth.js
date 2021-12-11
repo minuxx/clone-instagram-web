@@ -5,7 +5,7 @@ const jwtMiddleware = (req, res, next) => {
 
   // token does not exist
   if (!token) {
-    return res.send(errResponse(baseResponse.TOKEN_EMPTY));
+    return res.json(createRes(401, false, "JWT 토큰이 존재하지 않습니다."));
   }
 
   // create a promise that decodes the token
@@ -16,16 +16,14 @@ const jwtMiddleware = (req, res, next) => {
     });
   });
 
-  // if it has failed to verify, it will return an error message
-  const onError = (error) => {
-    return res.send(errResponse(baseResponse.TOKEN_VERIFICATION_FAILURE));
-  };
   // process the promise
   p.then((verifiedToken) => {
-    //비밀 번호 바뀌었을 때 검증 부분 추가 할 곳
     req.verifiedToken = verifiedToken;
     next();
-  }).catch(onError);
+  }).catch((err) => {
+    console.error(err);
+    return res.json(createRes(402, false, "JWT 토큰이 유효하지 않습니다."));
+  });
 };
 
 module.exports = jwtMiddleware;

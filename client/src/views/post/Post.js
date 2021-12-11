@@ -3,6 +3,7 @@ import icCancelGray from "../../assets/ic_cancel_gray.png";
 import { useCallback, useState } from "react";
 import useInputs from "../../hooks/useInputs";
 import { handleFirebaseUpload } from "../../utils/firebase/storage";
+import { postApi } from "../../apis/post";
 
 function Post() {
   const [localImgs, setLocalImgs] = useState([]);
@@ -53,9 +54,9 @@ function Post() {
       return;
     }
 
-    const hashtags = extractHashtags();
-    if (!hashtags) return;
-    console.log(hashtags);
+    // const hashtags = extractHashtags();
+    // if (!hashtags) return;
+    // console.log(hashtags);
 
     const urlsOnFirebase = [];
 
@@ -65,6 +66,9 @@ function Post() {
     }
 
     console.log(urlsOnFirebase);
+
+    const response = await postApi({ content, urls: urlsOnFirebase });
+    console.log(response);
   }, [content, localImgs]);
 
   const extractHashtags = () => {
