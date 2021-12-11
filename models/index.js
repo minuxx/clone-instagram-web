@@ -1,24 +1,24 @@
 const Sequelize = require("sequelize");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config")[env];
-const User = require("./user");
-const Post = require("./post");
-const PostImage = require("./postImage");
+const Users = require("./user");
+const Posts = require("./post");
+const PostImages = require("./postImage");
 
 const db = {};
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 db.sequelize = sequelize;
-db.User = User;
-db.Post = Post;
-db.PostImage = PostImage;
+db.Users = Users;
+db.Posts = Posts;
+db.PostImages = PostImages;
 
-User.init(sequelize);
-Post.init(sequelize);
-PostImage.init(sequelize);
+Users.init(sequelize);
+Posts.init(sequelize);
+PostImages.init(sequelize);
 
-User.associate(db);
-Post.associate(db);
-PostImage.associate(db);
+Users.associate(db);
+Posts.associate(db);
+PostImages.associate(db);
 
 module.exports = db;

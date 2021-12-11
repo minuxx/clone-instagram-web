@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const Users = require("../models/user");
 const createRes = require("../utils/common");
 const { validateEmail } = require("../middlewares/validation");
 
@@ -11,14 +11,14 @@ router.post("/join", validateEmail, async (req, res, next) => {
   const { email, name, id, password } = req.body;
 
   try {
-    const exUser = await User.findOne({ where: { id } });
+    const exUser = await Users.findOne({ where: { id } });
     if (exUser) {
       return res.json(createRes(401, false, "이미 존재하는 회원입니다."));
     }
 
     const hash = await bcrypt.hash(password, 12);
 
-    await User.create({
+    await Users.create({
       email,
       name,
       id,
@@ -36,7 +36,7 @@ router.post("/login", async (req, res, next) => {
   const { id, password } = req.body;
 
   try {
-    const exUser = await User.findOne({ where: { id } });
+    const exUser = await Users.findOne({ where: { id } });
     if (exUser) {
       const result = await bcrypt.compare(password, exUser.password);
       if (result) {
@@ -51,9 +51,7 @@ router.post("/login", async (req, res, next) => {
           }, // 유효 기간 365일
         );
 
-        return res.json(
-          createRes(200, true, "로그인에 성공했습니다.", { jwt: token }),
-        );
+        return res.json(createRes(200, true, "로그인에 성공했습니다.", { jwt: token }));
       } else {
         return res.json(createRes(401, false, "비밀번호가 일치하지 않습니다."));
       }

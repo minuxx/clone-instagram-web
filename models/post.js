@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Post extends Sequelize.Model {
+module.exports = class Posts extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -37,8 +37,8 @@ module.exports = class Post extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: false,
-        modelName: "Post",
-        tableName: "Post",
+        modelName: "Posts",
+        tableName: "Posts",
         paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
@@ -47,6 +47,7 @@ module.exports = class Post extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Post.belongsTo(db.User, { as: "user" });
+    db.Posts.belongsTo(db.Users, { foreignKey: "userIdx", as: "user" });
+    db.Posts.hasMany(db.PostImages, { foreignKey: "postIdx", as: "imgUrls" });
   }
 };
