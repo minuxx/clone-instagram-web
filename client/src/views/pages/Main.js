@@ -7,11 +7,11 @@ import { useEffect } from "react";
 function Main() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!checkLogin()) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!checkLogin()) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div>

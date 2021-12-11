@@ -3,7 +3,6 @@ import icCancelGray from "../../assets/ic_cancel_gray.png";
 import { useCallback, useState } from "react";
 import useInputs from "../../hooks/useInputs";
 import { handleFirebaseUpload } from "../../utils/firebase/storage";
-import { async } from "@firebase/util";
 
 function Post() {
   const [localImgs, setLocalImgs] = useState([]);
