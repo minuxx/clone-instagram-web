@@ -14,6 +14,11 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.STRING(2200),
           allowNull: false,
         },
+        location: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          defaultValue: "강남, 서울",
+        },
         state: {
           allowNull: false,
           type: Sequelize.STRING(8),

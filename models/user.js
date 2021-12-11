@@ -26,6 +26,10 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
+        profileImgUrl: {
+          type: Sequelize.STRING(200),
+          allowNull: true,
+        },
         state: {
           allowNull: false,
           type: Sequelize.STRING(8),
