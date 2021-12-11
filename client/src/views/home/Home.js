@@ -1,23 +1,36 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPostsApi } from "../../apis/post";
-import Feed from "./Feed";
+import Post from "./Post";
 
 function Home() {
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     getPosts();
   }, []);
 
   const getPosts = async () => {
-    const posts = await getPostsApi();
-    console.log(posts);
+    const res = await getPostsApi();
+    console.log(res);
+    handleResponse(res);
+    // setPosts((cur) => [...cur, ...res]);
+  };
+
+  const handleResponse = (res) => {
+    switch (res.code) {
+      case 200:
+        setPosts((cur) => [...cur, ...res.result.posts]);
+        break;
+      default:
+        alert(res.message);
+    }
   };
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      <Feed />
-      <Feed />
-      <Feed />
-      <Feed />
+      {posts.map((post) => (
+        <Post key={post.idx} post={post} />
+      ))}
     </div>
   );
 }

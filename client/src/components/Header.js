@@ -31,29 +31,19 @@ function Header() {
 
           <nav className="lg:flex-1 hidden md:flex justify-end space-x-4">
             <Link className="relative" to="/home">
-              <img
-                src={location.pathname == "/home" ? icHomeBlack : icHomeWhite}
-              />
+              <img src={location.pathname == "/home" ? icHomeBlack : icHomeWhite} />
             </Link>
 
             <Link className="relative" to="/msg">
-              <img
-                src={location.pathname == "/msg" ? icMsgBlack : icMsgWhite}
-              />
+              <img src={location.pathname == "/msg" ? icMsgBlack : icMsgWhite} />
             </Link>
 
             <Link className="relative" to="/new">
-              <img
-                src={location.pathname == "/new" ? icPostBlack : icPostWhite}
-              />
+              <img src={location.pathname == "/new" ? icPostBlack : icPostWhite} />
             </Link>
 
             <Link className="relative" to="/follow">
-              <img
-                src={
-                  location.pathname == "/follow" ? icHeartBlack : icHeartWhite
-                }
-              />
+              <img src={location.pathname == "/follow" ? icHeartBlack : icHeartWhite} />
             </Link>
           </nav>
         </div>
