@@ -1,3 +1,4 @@
+import { storageClear } from ".";
 import { storageGet, storageSet } from "./expirySession";
 
 function cleanUpStorage() {
@@ -25,4 +26,9 @@ export function getJwt() {
 export async function setLoginStorage(isLogined, jwt) {
   storageSet("isLogined", isLogined);
   storageSet("jwt", jwt);
+}
+
+export async function clearLoginStorage() {
+  storageClear("isLogined");
+  storageClear("jwt");
 }

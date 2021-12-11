@@ -11,9 +11,8 @@ function Home() {
 
   const getPosts = async () => {
     const res = await getPostsApi();
-    console.log(res);
+
     handleResponse(res);
-    // setPosts((cur) => [...cur, ...res]);
   };
 
   const handleResponse = (res) => {

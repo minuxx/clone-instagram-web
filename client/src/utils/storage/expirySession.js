@@ -1,5 +1,15 @@
 import moment from "moment";
 
+export function storageClear(key) {
+  window.sessionStorage.removeItem(key);
+  window.localStorage.removeItem(key);
+}
+
+export function storageClearAll() {
+  window.sessionStorage.clear();
+  window.localStorage.clear();
+}
+
 export function storageSet(key, value, expirationInMin = 360) {
   let expirationDate = new Date(new Date().getTime() + 60000 * expirationInMin);
   let ISODate = moment(expirationDate).format("YYYY[-]MM[-]DD HH:mm:ss"); //포맷변경
@@ -21,9 +31,7 @@ export function storageGet(key, expirationInMin = 360) {
 
     if (expirationDate > new Date()) {
       //시간 연장
-      let expirationDate = new Date(
-        new Date().getTime() + 60000 * expirationInMin,
-      );
+      let expirationDate = new Date(new Date().getTime() + 60000 * expirationInMin);
       let ISODate = moment(expirationDate).format("YYYY[-]MM[-]DD HH:mm:ss");
 
       let newStorage = {

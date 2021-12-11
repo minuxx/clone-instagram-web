@@ -7,10 +7,17 @@ import icPostBlack from "../assets/ic_post_black.png";
 import icHeartWhite from "../assets/ic_heart_white.png";
 import icHeartBlack from "../assets/ic_heart_black.png";
 import logo from "../assets/logo-instagram-text.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { clearLoginStorage } from "../utils/storage";
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const onLogOut = () => {
+    clearLoginStorage();
+    navigate("/");
+  };
 
   return (
     <div className="h-54 relative bg-white border-b-2 border-gray-100">
@@ -45,6 +52,9 @@ function Header() {
             <Link className="relative" to="/follow">
               <img src={location.pathname == "/follow" ? icHeartBlack : icHeartWhite} />
             </Link>
+            <div className="flex text-blue-300 items-center cursor-pointer hover:text-blue-400" onClick={onLogOut}>
+              Log out
+            </div>
           </nav>
         </div>
       </div>
