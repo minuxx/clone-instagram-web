@@ -12,8 +12,8 @@ export async function loginApi(data) {
   return response.data;
 }
 
-export async function getProfileApi(data) {
-  const response = await client.get(`/users`, data);
+export async function getProfileApi() {
+  const response = await client.get(`/users`);
 
   return response.data;
 }

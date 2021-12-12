@@ -7,8 +7,9 @@ import useInputs from "../../hooks/useInputs";
 import { Link } from "react-router-dom";
 import { loginApi } from "../../apis/auth";
 import { useNavigate } from "react-router";
-import { checkLogin, setLoginStorage } from "../../utils/storage";
+import { checkLogin, getJwt, setLoginStorage } from "../../utils/storage";
 import { useEffect } from "react";
+import client from "../../apis/config";
 
 function Login() {
   const navigate = useNavigate();
@@ -30,23 +31,24 @@ function Login() {
   const { id, password, idError, passwordError, isValidate } = form;
   const onSubmit = async () => {
     try {
-      const response = await loginApi({ id, password });
-      console.log(response);
-      handleResponse(response);
+      const res = await loginApi({ id, password });
+      console.log(res);
+      handleResponse(res);
     } catch (e) {
       console.error(e);
     }
   };
 
-  const handleResponse = (res) => {
+  const handleResponse = async (res) => {
     const code = res.code;
     switch (code) {
       case 200:
-        setLoginStorage(true, res.result.jwt);
+        await setLoginStorage(true, res.result.jwt);
+        client.defaults.headers["X-ACCESS-TOKEN"] = getJwt();
+
         navigate("/home", { replace: true });
         break;
       case 400:
-
       case 401:
         console.log(res.message);
         // setError((error) => ({ ...error, validationError: res.message }));
@@ -86,9 +88,7 @@ function Login() {
               <button
                 type="submit"
                 onClick={onSubmit}
-                className={`w-full ${
-                  !isValidate && "bg-opacity-50"
-                } bg-blue-500 rounded text-white text-xs font-bold p-1 cursor-default`}
+                className={`w-full ${!isValidate && "bg-opacity-50"} bg-blue-500 rounded text-white text-xs font-bold p-1 cursor-default`}
               >
                 로그인
               </button>
@@ -96,53 +96,30 @@ function Login() {
 
             <div className="w-10/12 flex flex-row justify-center items-center mb-8">
               <div className="flex-1 h-px bg-gray-200"></div>
-              <span className="flex-shrink-0 mx-2 text-xs font-bold text-gray-300">
-                또는
-              </span>
+              <span className="flex-shrink-0 mx-2 text-xs font-bold text-gray-300">또는</span>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
 
             <div className="w-10/12 flex flex-row justify-center mb-6 cursor-pointer">
-              <img
-                src={facebookLogo}
-                className="w-4 mr-2"
-                alt="facebook logo"
-              />
-              <div className="text-xs text-blue-900 font-bold">
-                Facebook으로 로그인
-              </div>
+              <img src={facebookLogo} className="w-4 mr-2" alt="facebook logo" />
+              <div className="text-xs text-blue-900 font-bold">Facebook으로 로그인</div>
             </div>
 
-            <div className="w-10/12 flex justify-center text-xs text-blue-900 font-light cursor-pointer">
-              비밀번호를 잊으셨나요?
-            </div>
+            <div className="w-10/12 flex justify-center text-xs text-blue-900 font-light cursor-pointer">비밀번호를 잊으셨나요?</div>
           </div>
 
           <div className="flex flex-row w-full border border-gray-300 bg-white justify-center py-4 text-xs mb-4">
             계정이 없으신가요?
-            <Link
-              className="text-xs text-blue-500 font-bold ml-1 cursor-pointer"
-              to="/account"
-            >
+            <Link className="text-xs text-blue-500 font-bold ml-1 cursor-pointer" to="/account">
               가입하기
             </Link>
           </div>
 
-          <div className="flex flex-row w-full justify-center text-xs font-light mb-4">
-            앱을 다운로드하세요.
-          </div>
+          <div className="flex flex-row w-full justify-center text-xs font-light mb-4">앱을 다운로드하세요.</div>
 
           <div className="flex flex-row w-full justify-center">
-            <img
-              src={icAppStore}
-              alt="appstore icon"
-              className="w-1/3 cursor-pointer mr-1.5"
-            />
-            <img
-              src={icGooglePlay}
-              alt="google play icon"
-              className="w-1/3 cursor-pointer"
-            />
+            <img src={icAppStore} alt="appstore icon" className="w-1/3 cursor-pointer mr-1.5" />
+            <img src={icGooglePlay} alt="google play icon" className="w-1/3 cursor-pointer" />
           </div>
         </div>
       </article>
