@@ -2,23 +2,31 @@ import { useNavigate } from "react-router";
 import Header from "../../components/Header";
 import Content from "../../components/Content";
 import { checkLogin } from "../../utils/storage";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+
+export const SearchContext = React.createContext();
+
+const searchStore = {
+  filter: "all",
+  value: "",
+  getPosts: null,
+};
 
 function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!checkLogin()) {
-      navigate("/");
-    }
+    // if (!checkLogin()) {
+    //   navigate("/");
+    // }
   }, []);
 
   return (
-    <div>
+    <SearchContext.Provider value={searchStore}>
       <Header />
 
       <Content className="font-sans" />
-    </div>
+    </SearchContext.Provider>
   );
 }
 

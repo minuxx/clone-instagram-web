@@ -9,14 +9,38 @@ import icHeartBlack from "../assets/ic_heart_black.png";
 import logo from "../assets/logo-instagram-text.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearLoginStorage } from "../utils/storage";
+import { useContext } from "react";
+import { SearchContext } from "../views/pages/Main";
+import useInputs from "../hooks/useInputs";
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
+  const searchStore = useContext(SearchContext);
+  const [form, onChange, setError, reset] = useInputs({ search: "" });
+  const { search } = form;
 
   const onLogOut = () => {
     clearLoginStorage();
     navigate("/");
+  };
+
+  const onEnter = (e) => {
+    if (e.keyCode == 13) {
+      console.log("header: ");
+      console.log(searchStore);
+
+      if (searchStore.filter == "all") {
+        alert("검색 조건을 선택해주세요.");
+        reset();
+      }
+
+      searchStore.value = search;
+
+      if (searchStore.getPosts != null) {
+        searchStore.getPosts();
+      }
+    }
   };
 
   return (
@@ -33,6 +57,10 @@ function Header() {
             <input
               className="form-input w-3/5 px-2 py-1.5 border border-gray-300 rounded-sm bg-gray-50 text-xs focus:border-gray-700 focus:ring-0"
               placeholder="검색"
+              name="search"
+              value={search}
+              onChange={onChange}
+              onKeyDown={onEnter}
             />
           </div>
 

@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getPostsApi } from "../../apis/post";
 import Post from "./Post";
+import { SearchContext } from "../pages/Main";
 
 function Home() {
+  const searchStore = useContext(SearchContext);
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     getPosts();
+    searchStore.getPosts = getPosts;
   }, []);
 
   const getPosts = async () => {
+    console.log("call getPosts");
     const res = await getPostsApi();
 
     handleResponse(res);
@@ -26,7 +30,10 @@ function Home() {
     }
   };
 
-  const onFilter = (e) => {
+  const onSetFilter = (e) => {
+    console.log("home: ");
+    console.log(searchStore);
+    searchStore.filter = e.target.id;
     setFilter(e.target.id);
   };
 
@@ -36,28 +43,28 @@ function Home() {
         <div
           className={`${filter == "all" ? "bg-blue-500" : null} w-20 text-center text-white rounded-md p-1.5 font-bold cursor-pointer`}
           id="all"
-          onClick={onFilter}
+          onClick={onSetFilter}
         >
           ALL
         </div>
         <div
           className={`${filter == "writer" ? "bg-blue-500" : null} w-20 text-center text-white rounded-md p-1.5 font-bold cursor-pointer`}
           id="writer"
-          onClick={onFilter}
+          onClick={onSetFilter}
         >
           작성자
         </div>
         <div
           className={`${filter == "hashtag" ? "bg-blue-500" : null} w-20 text-center text-white rounded-md p-1.5 font-bold cursor-pointer`}
           id="hashtag"
-          onClick={onFilter}
+          onClick={onSetFilter}
         >
           해시태그
         </div>
         <div
           className={`${filter == "content" ? "bg-blue-500" : null} w-20 text-center text-white rounded-md p-1.5 font-bold cursor-pointer`}
           id="content"
-          onClick={onFilter}
+          onClick={onSetFilter}
         >
           내용
         </div>
