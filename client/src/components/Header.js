@@ -9,7 +9,7 @@ import icHeartBlack from "../assets/ic_heart_black.png";
 import logo from "../assets/logo-instagram-text.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearLoginStorage } from "../utils/storage";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SearchContext } from "../views/pages/Main";
 import useInputs from "../hooks/useInputs";
 
@@ -17,8 +17,12 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchStore = useContext(SearchContext);
-  const [form, onChange, setError, reset] = useInputs({ search: "" });
+  const [form, onChange, setValue, setError, onReset] = useInputs({ search: "" });
   const { search } = form;
+
+  useEffect(() => {
+    searchStore.setSearch = setSearch;
+  });
 
   const onLogOut = () => {
     clearLoginStorage();
@@ -32,7 +36,7 @@ function Header() {
 
       if (searchStore.filter == "all") {
         alert("검색 조건을 선택해주세요.");
-        reset();
+        onReset();
       }
 
       searchStore.value = search;
@@ -41,6 +45,10 @@ function Header() {
         searchStore.getPosts();
       }
     }
+  };
+
+  const setSearch = () => {
+    setValue("search", searchStore.value);
   };
 
   return (

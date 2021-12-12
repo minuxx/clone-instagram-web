@@ -39,11 +39,27 @@ const settings = {
   slidesToScroll: 1,
 };
 
-function Post({ post }) {
+function Post({ post, onSearchWriterOrHashtag }) {
   const { location, createdAt, content, user, imgUrls } = post;
 
   const formatContent = () => {
-    return content.replaceAll(/#(\S*)/g, (hashtag) => `<span class="text-sm text-blue-500 cursor-pointer">${hashtag}</span>`);
+    const contents = content.split(/\s*(#\S+)\s*/g).filter((x) => x);
+
+    const result = contents.map((content) =>
+      content.charAt(0) == "#" ? (
+        <span
+          name="hashtag"
+          className="text-sm text-blue-500 cursor-pointer"
+          onClick={() => onSearchWriterOrHashtag("hashtag", content.substring(1))}
+        >
+          {content}
+        </span>
+      ) : (
+        content
+      ),
+    );
+
+    return result;
   };
 
   return (
@@ -58,7 +74,9 @@ function Post({ post }) {
           />
         </div>
         <div className="flex flex-col">
-          <div className="text-sm font-semibold">{user.id}</div>
+          <div className="text-sm font-semibold cursor-pointer" onClick={() => onSearchWriterOrHashtag("writer", user.id)}>
+            {user.id}
+          </div>
           <div className="text-xs">{location}</div>
         </div>
         <div className="ml-auto my-auto text-xs cursor-pointer">편집</div>
@@ -74,7 +92,7 @@ function Post({ post }) {
 
       <div className="flex flex-col h-32 p-2">
         <div className="text-xs text-gray-400">{createdAt.substring(0, 10)}</div>
-        <p className="flex-1 line-clamp-3 text-sm text-black" dangerouslySetInnerHTML={{ __html: formatContent() }}></p>
+        <p className="flex-1 line-clamp-3 text-sm text-black">{formatContent()}</p>
       </div>
     </article>
   );

@@ -30,10 +30,29 @@ function Home() {
   };
 
   const onSetFilter = (e) => {
-    console.log("home: ");
-    console.log(searchStore);
     searchStore.filter = e.target.id;
+
+    if (searchStore.filter == "all") {
+      searchStore.value = "";
+      searchStore.setSearch();
+
+      getPosts();
+    }
+
     setFilter(e.target.id);
+  };
+
+  const onSearchWriterOrHashtag = (filter, value) => {
+    searchStore.filter = filter;
+    searchStore.value = value;
+    // console.log(`filter: ${filter}, value: ${value}`);
+
+    if (searchStore.setSearch != null) {
+      searchStore.setSearch();
+    }
+
+    setFilter(filter);
+    getPosts();
   };
 
   return (
@@ -70,7 +89,7 @@ function Home() {
       </div>
       <div className="grid grid-cols-3 gap-4">
         {posts.map((post) => (
-          <Post key={post.idx} post={post} />
+          <Post key={post.idx} post={post} onSearchWriterOrHashtag={onSearchWriterOrHashtag} />
         ))}
       </div>
     </div>

@@ -11,6 +11,13 @@ function useInputs(initialForm) {
     [form],
   );
 
+  const setValue = useCallback(
+    (name, value) => {
+      setForm((form) => ({ ...form, [name]: value }));
+    },
+    [form],
+  );
+
   const reset = useCallback(() => setForm(initialForm), [initialForm]);
 
   const setError = useCallback(
@@ -21,7 +28,7 @@ function useInputs(initialForm) {
     [form],
   );
 
-  return [form, onChange, setError, reset];
+  return [form, onChange, setValue, setError, reset];
 }
 
 export default useInputs;

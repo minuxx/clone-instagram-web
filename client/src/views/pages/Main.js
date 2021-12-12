@@ -10,6 +10,7 @@ const searchStore = {
   filter: "all",
   value: "",
   getPosts: null,
+  setSearch: null,
 };
 
 function Main() {
