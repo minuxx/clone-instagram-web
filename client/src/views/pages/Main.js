@@ -46,7 +46,7 @@ function Main() {
         userStore.profileImgUrl = res.result.user.profileImgUrl;
         break;
       default:
-        alert(res.message);
+        console.log(res.message);
     }
   };
 
