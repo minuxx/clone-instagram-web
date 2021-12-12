@@ -1,34 +1,30 @@
+import { getFollowsApi } from "../../apis/follow";
+import { useEffect, useState } from "react";
 import User from "./User";
 
 function Follow() {
-  const users = [
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: false },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-    { id: "minuxx", name: "minuk hi", profileImgUrl: null, isFollowing: true },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    getFollows();
+  }, []);
+
+  const getFollows = async () => {
+    const res = await getFollowsApi();
+
+    console.log(res);
+    handleResponse(res);
+  };
+
+  const handleResponse = (res) => {
+    switch (res.code) {
+      case 200:
+        setUsers([...res.result.users]);
+        break;
+      default:
+        console.log(res.message);
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto">

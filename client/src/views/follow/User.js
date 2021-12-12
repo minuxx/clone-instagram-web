@@ -2,7 +2,7 @@ import imgProfileBorder from "../../assets/img_profile_border.png";
 import imgDefaultProfile from "../../assets/img_default_profile.png";
 
 function User({ user }) {
-  const { id, name, profileImgUrl, isFollowing } = user;
+  const { id, name, profileImgUrl, Followers } = user;
 
   return (
     <div className="flex flex-row p-2 items-center">
@@ -16,16 +16,16 @@ function User({ user }) {
       </div>
 
       <div className="flex flex-col">
-        <div className="font-semibold leading-4">{id}</div>
-        <div className="font-medium text-gray-200 leading-4">{name}</div>
+        <div className="font-semibold leading-6">{id}</div>
+        <div className="font-normal text-gray-300 leading-4">{name}</div>
       </div>
 
       <div
         className={`font-semibold ml-auto px-2.5 py-1.5 rounded cursor-pointer ${
-          isFollowing ? "text-black bg-white border" : "text-white bg-blue-400"
+          Followers.length == 0 ? "text-white bg-blue-400" : "text-black bg-white border"
         } `}
       >
-        {isFollowing ? "팔로잉" : "팔로우"}
+        {Followers.length == 0 ? "팔로우" : "팔로잉"}
       </div>
     </div>
   );
