@@ -74,8 +74,8 @@ function Post({ post, onSearchWriterOrHashtag }) {
           />
         </div>
         <div className="flex flex-col">
-          <div className="text-sm font-semibold cursor-pointer" onClick={() => onSearchWriterOrHashtag("writer", user.id)}>
-            {user.id}
+          <div className="text-sm font-semibold cursor-pointer" onClick={() => onSearchWriterOrHashtag("writer", user.name)}>
+            {user.name}
           </div>
           <div className="text-xs">{location}</div>
         </div>

@@ -16,6 +16,8 @@ function Home() {
   const getPosts = async () => {
     const res = await getPostsApi(searchStore.filter, searchStore.value);
 
+    console.log(res);
+
     handleResponse(res);
   };
 
