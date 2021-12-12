@@ -16,9 +16,9 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (!checkLogin()) {
-    //   navigate("/");
-    // }
+    if (!checkLogin()) {
+      navigate("/");
+    }
   }, []);
 
   return (

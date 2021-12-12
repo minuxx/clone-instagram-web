@@ -14,8 +14,7 @@ function Home() {
   }, []);
 
   const getPosts = async () => {
-    console.log("call getPosts");
-    const res = await getPostsApi();
+    const res = await getPostsApi(searchStore.filter, searchStore.value);
 
     handleResponse(res);
   };
@@ -23,7 +22,7 @@ function Home() {
   const handleResponse = (res) => {
     switch (res.code) {
       case 200:
-        setPosts((cur) => [...cur, ...res.result.posts]);
+        setPosts([...res.result.posts]);
         break;
       default:
         alert(res.message);
@@ -39,7 +38,7 @@ function Home() {
 
   return (
     <div>
-      <div className="inline-flex flex-row items-center rounded-md bg-gray-300">
+      <div className="inline-flex flex-row items-center rounded-md bg-gray-300 mb-4">
         <div
           className={`${filter == "all" ? "bg-blue-500" : null} w-20 text-center text-white rounded-md p-1.5 font-bold cursor-pointer`}
           id="all"
