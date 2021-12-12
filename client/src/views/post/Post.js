@@ -68,8 +68,8 @@ function Post() {
   }, [content, localImgs]);
 
   return (
-    <div className="border border-gray-200 rounded-sm">
-      <header className="flex p-2 border-b-2">
+    <div className="border border-gray-200 rounded-sm bg-white">
+      <header className="flex p-2">
         <div className="flex-1"></div>
         <div className="text-xl font-semibold flex-1 text-center">새 게시물 만들기</div>
         <div className="text-sm font-semibold text-blue-500 flex-1 flex justify-end items-center cursor-pointer" onClick={onPost}>
@@ -78,7 +78,7 @@ function Post() {
       </header>
 
       <div className="grid grid-cols-3 h-96">
-        <div className="flex flex-col col-span-2 border-r-2 p-1">
+        <div className="flex flex-col col-span-2 border border-b-0 border-l-0 p-1">
           <div className="flex-1">
             {localImgs.length == 0 && (
               <div className="h-full flex justify-center items-center">
@@ -108,7 +108,7 @@ function Post() {
           </label>
         </div>
 
-        <div className="col-span-1 p-1 flex flex-col">
+        <div className="col-span-1 p-1 flex flex-col border border-l-0 border-b-0 border-r-0">
           <header className="flex flex-row p-2 items-center">
             <img
               className="w-9 h-9 rounded-full mr-1"

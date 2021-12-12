@@ -24,12 +24,11 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!checkLogin()) {
-      navigate("/");
-      return;
-    }
-
-    getProfile();
+    // if (!checkLogin()) {
+    //   navigate("/");
+    //   return;
+    // }
+    // getProfile();
   }, []);
 
   const getProfile = async () => {
@@ -53,9 +52,11 @@ function Main() {
   return (
     <UserContext.Provider value={userStore}>
       <SearchContext.Provider value={searchStore}>
-        <Header />
+        <div className="bg-gray-100 max-h-full h-full min-h-screen">
+          <Header />
 
-        <Content className="font-sans" />
+          <Content className="font-sans" />
+        </div>
       </SearchContext.Provider>
     </UserContext.Provider>
   );
