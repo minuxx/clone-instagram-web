@@ -24,11 +24,11 @@ function Main() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!checkLogin()) {
-      navigate("/");
-      return;
-    }
-    getProfile();
+    // if (!checkLogin()) {
+    //   navigate("/");
+    //   return;
+    // }
+    // getProfile();
   }, []);
 
   const getProfile = async () => {
