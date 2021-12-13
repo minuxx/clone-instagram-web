@@ -17,3 +17,9 @@ export async function cancelfollowingApi(id) {
 
   return response.data;
 }
+
+export async function getFollowersApi(name) {
+  const response = await client.get(`/follows/${name}`);
+
+  return response.data;
+}

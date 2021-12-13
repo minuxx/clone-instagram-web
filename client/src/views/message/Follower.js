@@ -1,8 +1,8 @@
 import imgProfileBorder from "../../assets/img_profile_border.png";
 import imgDefaultProfile from "../../assets/img_default_profile.png";
 
-function User({ user }) {
-  const { name, profileImgUrl, isSelected } = user;
+function Follower({ follower }) {
+  const { name, profileImgUrl, isSelected } = follower;
 
   return (
     <div className={`flex flex-row p-4 items-center cursor-pointer ${isSelected ? "bg-gray-100" : "bg-white"}`}>
@@ -22,4 +22,4 @@ function User({ user }) {
   );
 }
 
-export default User;
+export default Follower;

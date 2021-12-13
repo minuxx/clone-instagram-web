@@ -2,10 +2,10 @@ import icFileUpload from "../../assets/ic_file_upload.png";
 import icCancelGray from "../../assets/ic_cancel_gray.png";
 import imgDefaultProfile from "../../assets/img_default_profile.png";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { UserContext } from "../pages/Main";
 import useInputs from "../../hooks/useInputs";
 import { handleFirebaseUpload } from "../../utils/firebase/storage";
 import { postApi } from "../../apis/post";
-import { UserContext } from "../pages/Main";
 
 function Post() {
   const userStore = useContext(UserContext);

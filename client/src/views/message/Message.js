@@ -1,85 +1,51 @@
-import User from "./User";
+import Follower from "./Follower";
 import icEmoji from "../../assets/ic_emoji.png";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { UserContext } from "../pages/Main";
+import { getFollowersApi } from "../../apis/follow";
 
 function Message() {
-  const users = [
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: false,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: false,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-    {
-      name: "김다정",
-      profileImgUrl: null,
-      isSelected: true,
-    },
-  ];
+  const userStore = useContext(UserContext);
+  const [followers, setFollowers] = useState([]);
+
+  useEffect(() => {
+    getFollowers();
+  }, []);
+
+  const getFollowers = async () => {
+    console.log(userStore.name);
+    const res = await getFollowersApi(userStore.name);
+
+    console.log(res);
+
+    handleResponse(res);
+  };
+
+  const handleResponse = (res) => {
+    switch (res.code) {
+      case 200:
+        setFollowers([...res.result.followers]);
+        break;
+      default:
+        alert(res.message);
+    }
+  };
 
   const messages = [{ content: "hi" }];
 
   return (
     <div className="flex flex-row bg-white min-h-screen">
       <div className="flex flex-col w-2/5">
-        <div className="flex flex-row justify-center items-center h-14 font-semibold border">유민욱</div>
-        <div className="overflow-y-auto border max-h-screen">
-          {users.map((user) => (
-            <User user={user} />
+        <div className="flex flex-row justify-center items-center h-14 font-semibold border">{userStore.name}</div>
+        <div className="flex-1 overflow-y-auto border border-t-0 max-h-screen">
+          {followers.map((user) => (
+            <Follower follower={user} />
           ))}
         </div>
       </div>
 
       <div className="flex flex-col flex-1 border border-l-0 border-t-0">
-        <div className="flex flex-row justify-start items-center h-14 font-extrabold border border-l-0 pl-4">유민욱님</div>
+        <div className="flex flex-row justify-start items-center h-14 font-extrabold border border-l-0 border-r-0 pl-4">유민욱님</div>
 
         <div className="flex-1"></div>
 
