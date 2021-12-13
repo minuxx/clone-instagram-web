@@ -63,8 +63,8 @@ function Post({ post, onSearchWriterOrHashtag }) {
   };
 
   return (
-    <article className="flex flex-col border border-gray-200 rounded-sm font-sans">
-      <header className="flex flex-row p-2">
+    <article className="flex flex-col border border-gray-200 rounded-sm font-sans bg-white">
+      <header className="flex flex-row p-2 border border-t-0 border-l-0 border-r-0">
         <div className="flex relative w-10 h-10 mr-2 justify-center items-center">
           <img className="absolute" src={imgProfileBorder} alt="profile border image" />
           <img
@@ -90,7 +90,7 @@ function Post({ post, onSearchWriterOrHashtag }) {
         ))}
       </MSlider>
 
-      <div className="flex flex-col h-32 p-2">
+      <div className="flex flex-col h-32 p-2 border border-b-0 border-l-0 border-r-0">
         <div className="text-xs text-gray-400">{createdAt.substring(0, 10)}</div>
         <p className="flex-1 line-clamp-3 text-sm text-black">{formatContent()}</p>
       </div>

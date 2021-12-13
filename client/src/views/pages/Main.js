@@ -52,7 +52,7 @@ function Main() {
   return (
     <UserContext.Provider value={userStore}>
       <SearchContext.Provider value={searchStore}>
-        <div className="bg-gray-100 max-h-full h-full min-h-screen">
+        <div className="bg-gray-50 max-h-full h-full min-h-screen">
           <Header />
 
           <Content className="font-sans" />
