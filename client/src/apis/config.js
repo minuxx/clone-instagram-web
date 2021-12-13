@@ -10,6 +10,7 @@ const client = axios.create({
     accept: "application/json",
     "X-ACCESS-TOKEN": getJwt(),
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 
