@@ -6,14 +6,16 @@ import icPostWhite from "../assets/ic_post_white.png";
 import icPostBlack from "../assets/ic_post_black.png";
 import icHeartWhite from "../assets/ic_heart_white.png";
 import icHeartBlack from "../assets/ic_heart_black.png";
+import imgDefaultProfile from "../assets/img_default_profile.png";
 import logo from "../assets/logo-instagram-text.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { clearLoginStorage } from "../utils/storage";
 import { useContext, useEffect } from "react";
-import { SearchContext } from "../views/pages/Main";
+import { SearchContext, UserContext } from "../views/pages/Main";
 import useInputs from "../hooks/useInputs";
 
 function Header() {
+  const userStore = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
   const searchStore = useContext(SearchContext);
@@ -87,6 +89,9 @@ function Header() {
 
             <Link className="relative" to="/follow">
               <img src={location.pathname == "/follow" ? icHeartBlack : icHeartWhite} />
+            </Link>
+            <Link className="relative" to="/profile">
+              <img className="w-8 h-8 rounded-full" src={userStore.profileImgUrl == null ? imgDefaultProfile : userStore.profileImgUrl} />
             </Link>
             <div className="flex text-blue-300 items-center cursor-pointer hover:text-blue-400" onClick={onLogOut}>
               Log out

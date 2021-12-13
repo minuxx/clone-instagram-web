@@ -16,8 +16,11 @@ const searchStore = {
 };
 
 const userStore = {
+  id: "",
   name: "",
   profileImgUrl: null,
+  followings: 0,
+  followers: 0,
 };
 
 function Main() {
@@ -41,8 +44,11 @@ function Main() {
     console.log(res);
     switch (res.code) {
       case 200:
+        userStore.id = res.result.user.id;
         userStore.name = res.result.user.name;
         userStore.profileImgUrl = res.result.user.profileImgUrl;
+        userStore.followers = res.result.user.followers;
+        userStore.followings = res.result.user.followings;
         break;
       default:
         console.log(res.message);
