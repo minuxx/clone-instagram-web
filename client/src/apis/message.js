@@ -5,3 +5,9 @@ export async function getMessagesApi(id) {
 
   return response.data;
 }
+
+export async function sendMessageApi(data) {
+  const response = await client.post("/messages", data);
+
+  return response.data;
+}

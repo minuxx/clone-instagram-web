@@ -3,14 +3,17 @@ import icEmoji from "../../assets/ic_emoji.png";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../pages/Main";
 import { getFollowersApi } from "../../apis/follow";
-import { getMessagesApi } from "../../apis/message";
+import { getMessagesApi, sendMessageApi } from "../../apis/message";
 import MBox from "./MBox";
+import useInputs from "../../hooks/useInputs";
 
 function Message() {
   const userStore = useContext(UserContext);
   const [followers, setFollowers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [form, onChange, setValue, setError, onReset] = useInputs({ content: "" });
+  const { content } = form;
 
   useEffect(() => {
     getFollowers();
@@ -54,69 +57,42 @@ function Message() {
 
     console.log(res);
 
-    handleResponseOnMessage(res);
+    handleResponseOnGetMessages(res);
   };
 
-  const handleResponseOnMessage = (res) => {
+  const handleResponseOnGetMessages = (res) => {
     switch (res.code) {
       case 200:
-        setFollowers([...res.result.messages]);
+        setMessages([...res.result.messages]);
         break;
       default:
-        alert(res.message);
+        console.log(res.message);
     }
   };
 
-  const u = {
-    id: "Uri.",
-    profileImgUrl: null,
+  const sendMessage = async () => {
+    if (selectedUser == null) {
+      alert("메시지를 보낼 사람을 선택해주세요.");
+      return;
+    }
+
+    const res = await sendMessageApi({ receiverId: selectedUser.id, content });
+
+    console.log(res);
+
+    handleResponseOnSendMessage(res);
   };
 
-  const msg = [
-    { idx: 1, content: "1", senderId: "Uri." },
-    { idx: 2, content: "2asdasdasd", senderId: "Uri." },
-    {
-      idx: 3,
-      content:
-        "3ddddddddddddddddddddddddfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffddd",
-      senderId: "minuxx",
-    },
-    {
-      idx: 3,
-      content: "3ddddddddddddddddddddddddffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-    { idx: 4, content: "4adsfsfsfdsfsdasdasd", senderId: "Uri." },
-    { idx: 5, content: "4adsfsfsfdsfsdasdasd", senderId: "Uri." },
-    { idx: 6, content: "4adsfsfsfdsfsdasdasd", senderId: "Uri." },
-    { idx: 7, content: "4adsfsfsfdsfsdasdasd", senderId: "Uri." },
-    {
-      idx: 8,
-      content: "3421421442141241432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsfffffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-    {
-      idx: 9,
-      content: "3421421442141241432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsfffffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-    {
-      idx: 10,
-      content: "3421421442141241432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsfffffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-    {
-      idx: 11,
-      content: "3421421442141241432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsfffffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-    {
-      idx: 12,
-      content:
-        "3421421442141241432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsfffffffffffffffffffffffff1432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsffffffffffffffffffffff1432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsffffffffffffffffffffff1432525gsfddsfddddddddddddddddddddddddfffffffffffffffffffffffffdsffffffffffffffffffffffffffffffffd",
-      senderId: "minuxx",
-    },
-  ];
+  const handleResponseOnSendMessage = (res) => {
+    switch (res.code) {
+      case 200:
+        onReset();
+        getMessages(selectedUser.id);
+        break;
+      default:
+        console.log(res.message);
+    }
+  };
 
   return (
     <div className="flex flex-row bg-white min-h-screen">
@@ -135,8 +111,8 @@ function Message() {
         </div>
 
         <div className="flex-1 p-4 overflow-auto">
-          {msg.map((m) => (
-            <MBox key={m.idx} receiver={u.id == m.senderId ? u : null} content={m.content} />
+          {messages.map((message) => (
+            <MBox key={message.idx} receiver={selectedUser.name == message.senderName ? selectedUser : null} content={message.content} />
           ))}
         </div>
 
@@ -145,10 +121,14 @@ function Message() {
           <textarea
             className="flex-1 border-0 bg-transparent focus:ring-transparent resize-none  p-1.5 overflow-hidden min-h-8 h-8 mr-2"
             placeholder="메세지 입력..."
-            maxLength={2200}
-            name="message"
+            maxLength={100}
+            name="content"
+            value={content}
+            onChange={onChange}
           ></textarea>
-          <div className="text-blue-500 font-semibold cursor-pointer">보내기</div>
+          <div className="text-blue-500 font-semibold cursor-pointer" onClick={sendMessage}>
+            보내기
+          </div>
         </div>
       </div>
     </div>
