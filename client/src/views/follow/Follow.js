@@ -31,7 +31,7 @@ function Follow() {
       <h1 className="text-lg font-bold mb-4">회원님을 위한 추천</h1>
       <div className="border-2 bg-white p-3">
         {users.map((user) => (
-          <User user={user} />
+          <User user={user} getFollows={getFollows} />
         ))}
       </div>
     </div>
