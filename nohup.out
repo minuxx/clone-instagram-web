@@ -1,0 +1,343 @@
+
+> instagram@0.0.1 start /home/web32/instagram
+> node app.js
+
+8032 번 포트에서 대기중
+Executing (default): CREATE TABLE IF NOT EXISTS `Users` (`idx` INTEGER NOT NULL auto_increment , `email` VARCHAR(40) NOT NULL, `name` VARCHAR(15) NOT NULL, `id` VARCHAR(75) NOT NULL, `password` VARCHAR(100) NOT NULL, `profileImgUrl` VARCHAR(200), `state` VARCHAR(8) NOT NULL DEFAULT 'ACTIVE', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `deletedAt` DATETIME, PRIMARY KEY (`idx`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+Executing (default): SHOW INDEX FROM `Users` FROM `web32`
+Executing (default): CREATE TABLE IF NOT EXISTS `Posts` (`idx` INTEGER NOT NULL auto_increment , `content` VARCHAR(2200) NOT NULL, `location` VARCHAR(15) NOT NULL DEFAULT '강남, 서울', `state` VARCHAR(8) NOT NULL DEFAULT 'ACTIVE', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `postIdx` INTEGER, `userIdx` INTEGER, PRIMARY KEY (`idx`), FOREIGN KEY (`postIdx`) REFERENCES `Users` (`idx`) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (`userIdx`) REFERENCES `Users` (`idx`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+Executing (default): SHOW INDEX FROM `Posts` FROM `web32`
+Executing (default): CREATE TABLE IF NOT EXISTS `PostImages` (`idx` INTEGER NOT NULL auto_increment , `url` VARCHAR(200) NOT NULL, `state` VARCHAR(8) NOT NULL DEFAULT 'ACTIVE', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `postIdx` INTEGER, PRIMARY KEY (`idx`), FOREIGN KEY (`postIdx`) REFERENCES `Posts` (`idx`) ON DELETE SET NULL ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+Executing (default): SHOW INDEX FROM `PostImages` FROM `web32`
+Executing (default): CREATE TABLE IF NOT EXISTS `Messages` (`idx` INTEGER NOT NULL auto_increment , `senderName` VARCHAR(30) NOT NULL, `content` VARCHAR(100) NOT NULL, `senderIdx` INTEGER NOT NULL, `receiverIdx` INTEGER NOT NULL, `state` VARCHAR(8) NOT NULL DEFAULT 'ACTIVE', `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `deletedAt` DATETIME, PRIMARY KEY (`idx`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+Executing (default): SHOW INDEX FROM `Messages` FROM `web32`
+Executing (default): CREATE TABLE IF NOT EXISTS `Follow` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `followingId` INTEGER , `followerId` INTEGER , PRIMARY KEY (`followingId`, `followerId`), FOREIGN KEY (`followingId`) REFERENCES `Users` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`followerId`) REFERENCES `Users` (`idx`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+Executing (default): SHOW INDEX FROM `Follow` FROM `web32`
+데이터베이스 연결 성공
+[0mGET / [36m304[0m 2.384 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.701 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.229 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.261 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.218 ms - -[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [36m304[0m 0.871 ms - -[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [36m304[0m 0.922 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.970 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+[0mGET /posts?filter=all&search= [36m304[0m 22.401 ms - -[0m
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 21.497 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.270 ms - -[0m
+[0mGET /home [36m304[0m 0.998 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.218 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.219 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.452 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.472 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.200 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 5.584 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 11.294 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.211 ms - -[0m
+[0mGET / [36m304[0m 0.281 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.232 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.421 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.435 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.189 ms - -[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [36m304[0m 0.681 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.708 ms - -[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [36m304[0m 0.724 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+[0mGET /posts?filter=all&search= [36m304[0m 4.510 ms - -[0m
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 7.174 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유민욱' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /follows/%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 5.909 ms - -[0m
+[0mGET /static/media/img_profile_border.3c6f3646.png [36m304[0m 0.201 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유민욱' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /follows/%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 4.005 ms - -[0m
+Uri.
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'Uri.' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 2) OR (`Messages`.`senderIdx` = 2 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/Uri. [36m304[0m 4.674 ms - -[0m
+hoya
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'hoya' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 3) OR (`Messages`.`senderIdx` = 3 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/hoya [36m304[0m 3.144 ms - -[0m
+jinsu
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'jinsu' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 4) OR (`Messages`.`senderIdx` = 4 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/jinsu [36m304[0m 3.313 ms - -[0m
+hoya
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'hoya' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 3) OR (`Messages`.`senderIdx` = 3 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/hoya [36m304[0m 3.505 ms - -[0m
+hoya
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'hoya' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 3) OR (`Messages`.`senderIdx` = 3 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/hoya [36m304[0m 3.038 ms - -[0m
+Uri.
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'Uri.' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 2) OR (`Messages`.`senderIdx` = 2 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/Uri. [36m304[0m 3.592 ms - -[0m
+hoya
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'hoya' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 3) OR (`Messages`.`senderIdx` = 3 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/hoya [36m304[0m 4.539 ms - -[0m
+[0mGET / [32m200[0m 1.385 ms - 2259[0m
+[0mGET /static/css/main.c1591b24.chunk.css [32m200[0m 0.395 ms - 13318[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [32m200[0m 1.924 ms - 69862[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [32m200[0m 1.871 ms - 406905[0m
+[0mGET /static/css/2.cd76a518.chunk.css [32m200[0m 0.321 ms - 9125[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [32m200[0m 0.329 ms - 15730[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [32m200[0m 0.319 ms - 12140[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [32m200[0m 0.349 ms - 265449[0m
+[0mGET /static/css/main.c1591b24.chunk.css.map [32m200[0m 0.825 ms - 31529[0m
+[0mGET / [36m304[0m 0.288 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.220 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.385 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.418 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.196 ms - -[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [36m304[0m 0.627 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.687 ms - -[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [36m304[0m 0.782 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css.map [36m304[0m 0.205 ms - -[0m
+[0mGET http://www.msftconnecttest.com/connecttest.txt [32m200[0m 0.746 ms - 2259[0m
+[0mGET http://ipv6.msftconnecttest.com/connecttest.txt [32m200[0m 0.494 ms - 2259[0m
+[0mGET http://web.expertly.info:8032/msg [36m304[0m 0.480 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/2.cd76a518.chunk.css [36m304[0m 0.930 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/main.c1591b24.chunk.css [36m304[0m 0.519 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/2.4edc4d7d.chunk.js [36m304[0m 0.533 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/main.9b0a41df.chunk.js [36m304[0m 0.483 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.231 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Followers`.`idx` AS `Followers.idx`, `Followers`.`name` AS `Followers.name` FROM `Users` AS `Users` LEFT OUTER JOIN ( `Follow` AS `Followers->Follow` INNER JOIN `Users` AS `Followers` ON `Followers`.`idx` = `Followers->Follow`.`followerId` AND `Followers->Follow`.`followerId` = 1) ON `Users`.`idx` = `Followers->Follow`.`followingId` AND (`Followers`.`deletedAt` IS NULL) WHERE (`Users`.`deletedAt` IS NULL AND `Users`.`idx` != 1);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET http://web.expertly.info:8032/follows/ [36m304[0m 9.549 ms - -[0m
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET http://web.expertly.info:8032/users [36m304[0m 10.356 ms - -[0m
+[0mGET http://web.expertly.info:8032/favicon.ico [36m304[0m 0.218 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Followers`.`idx` AS `Followers.idx`, `Followers`.`name` AS `Followers.name` FROM `Users` AS `Users` LEFT OUTER JOIN ( `Follow` AS `Followers->Follow` INNER JOIN `Users` AS `Followers` ON `Followers`.`idx` = `Followers->Follow`.`followerId` AND `Followers->Follow`.`followerId` = 1) ON `Users`.`idx` = `Followers->Follow`.`followingId` AND (`Followers`.`deletedAt` IS NULL) WHERE (`Users`.`deletedAt` IS NULL AND `Users`.`idx` != 1);
+[0mGET http://web.expertly.info:8032/follows [36m304[0m 4.067 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/media/img_profile_border.3c6f3646.png [36m304[0m 0.267 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유민욱' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET http://web.expertly.info:8032/follows/%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 3.783 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/media/ic_cancel_gray.be846d74.png [36m304[0m 0.355 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/2.cd76a518.chunk.css [36m304[0m 0.356 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/main.c1591b24.chunk.css [36m304[0m 0.948 ms - -[0m
+[0mGET http://web.expertly.info:8032/manifest.json [36m304[0m 0.498 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/main.9b0a41df.chunk.js.map [32m200[0m 0.323 ms - 103640[0m
+[0mGET http://web.expertly.info:8032/static/css/2.cd76a518.chunk.css.map [32m200[0m 1.214 ms - 7054[0m
+[0mGET http://web.expertly.info:8032/static/css/main.c1591b24.chunk.css.map [32m200[0m 1.188 ms - 31529[0m
+[0mGET http://web.expertly.info:8032/static/js/2.4edc4d7d.chunk.js.map [32m200[0m 1.112 ms - 1561987[0m
+[0mGET http://web.expertly.info:8032/new [32m200[0m 0.615 ms - 2259[0m
+[0mGET http://web.expertly.info:8032/static/css/2.cd76a518.chunk.css [36m304[0m 0.380 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/main.c1591b24.chunk.css [36m304[0m 0.493 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/2.4edc4d7d.chunk.js [36m304[0m 0.236 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/main.9b0a41df.chunk.js [36m304[0m 0.265 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/css/2.cd76a518.chunk.css.map [32m200[0m 0.734 ms - 7054[0m
+[0mGET http://web.expertly.info:8032/static/css/main.c1591b24.chunk.css.map [32m200[0m 0.796 ms - 31529[0m
+[0mGET http://web.expertly.info:8032/static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.217 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/main.9b0a41df.chunk.js.map [32m200[0m 0.637 ms - 103640[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET http://web.expertly.info:8032/users [36m304[0m 7.717 ms - -[0m
+[0mGET http://web.expertly.info:8032/favicon.ico [36m304[0m 0.331 ms - -[0m
+[0mGET http://web.expertly.info:8032/static/js/2.4edc4d7d.chunk.js.map [32m200[0m 0.574 ms - 1561987[0m
+[0mGET / [32m200[0m 0.514 ms - 2259[0m
+[0mGET /static/css/2.cd76a518.chunk.css [32m200[0m 0.764 ms - 9125[0m
+[0mGET /static/css/main.c1591b24.chunk.css [32m200[0m 0.837 ms - 13318[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [32m200[0m 1.180 ms - 69862[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [32m200[0m 1.185 ms - 406905[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [32m200[0m 1.379 ms - 12140[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [32m200[0m 1.449 ms - 15730[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [32m200[0m 2.229 ms - 265449[0m
+[0mGET /favicon.ico [32m200[0m 0.501 ms - 1150[0m
+[0mGET / [36m304[0m 0.335 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.336 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.617 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.651 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.675 ms - -[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [36m304[0m 0.286 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.181 ms - -[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [36m304[0m 0.176 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minuxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 326.587 ms - 261[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+[0mGET /posts?filter=all&search= [36m304[0m 4.381 ms - -[0m
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [32m200[0m 6.466 ms - 183[0m
+[0mGET /static/media/ic_cancel_gray.be846d74.png [32m200[0m 1.314 ms - 10675[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): INSERT INTO `Posts` (`idx`,`content`,`location`,`state`,`createdAt`,`updatedAt`,`userIdx`) VALUES (DEFAULT,?,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mPOST /posts [32m200[0m 14.359 ms - 81[0m
+[0mGET /static/js/main.9b0a41df.chunk.js.map [32m200[0m 1.848 ms - 103640[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [32m200[0m 3.459 ms - 437[0m
+[0mGET /static/media/img_profile_border.3c6f3646.png [36m304[0m 0.238 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 4.114 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유민욱' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /follows/%EC%9C%A0%EB%AF%BC%EC%9A%B1 [32m200[0m 5.654 ms - 620[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [32m200[0m 2.571 ms - 103[0m
+[0mGET / [32m200[0m 0.537 ms - 2259[0m
+[0mGET /static/css/2.cd76a518.chunk.css [32m200[0m 0.421 ms - 9125[0m
+[0mGET /static/css/main.c1591b24.chunk.css [32m200[0m 0.280 ms - 13318[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [32m200[0m 0.806 ms - 69862[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [32m200[0m 0.917 ms - 406905[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [32m200[0m 0.903 ms - 15730[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [32m200[0m 0.889 ms - 12140[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [32m200[0m 1.481 ms - 265449[0m
+[0mGET /favicon.ico [32m200[0m 0.461 ms - 1150[0m
+[0mGET / [36m304[0m 1.118 ms - -[0m
+[0mGET /static/css/2.cd76a518.chunk.css [36m304[0m 0.549 ms - -[0m
+[0mGET /static/css/main.c1591b24.chunk.css [36m304[0m 0.890 ms - -[0m
+[0mGET /static/js/2.4edc4d7d.chunk.js [36m304[0m 0.938 ms - -[0m
+[0mGET /static/js/main.9b0a41df.chunk.js [36m304[0m 0.779 ms - -[0m
+[0mGET /static/media/img_login_mockup.9065cf38.png [36m304[0m 0.548 ms - -[0m
+[0mGET /static/media/logo-instagram-text.c8a83ed8.png [36m304[0m 0.480 ms - -[0m
+[0mGET /static/media/logo-facebook.44063dc9.png [36m304[0m 0.414 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 12.752 ms - -[0m
+[0mGET /posts?filter=all&search= [36m304[0m 13.492 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minuxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 300.231 ms - 261[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 2.246 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 4.308 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'dd' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 4.150 ms - 79[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'dd' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 1.861 ms - 79[0m
+[0mGET /static/js/main.9b0a41df.chunk.js.map [36m304[0m 0.359 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 3.314 ms - 79[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 1.932 ms - 79[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 1.970 ms - 79[0m
+[0mGET /static/js/main.9b0a41df.chunk.js.map [36m304[0m 0.326 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'mnuxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 8.317 ms - 79[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minuxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 259.343 ms - 261[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 2.293 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [36m304[0m 4.969 ms - -[0m
+[0mGET /static/media/ic_cancel_gray.be846d74.png [36m304[0m 0.825 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): INSERT INTO `Posts` (`idx`,`content`,`location`,`state`,`createdAt`,`updatedAt`,`userIdx`) VALUES (DEFAULT,?,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mPOST /posts [32m200[0m 19.396 ms - 81[0m
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [32m200[0m 4.310 ms - 696[0m
+[0mGET /static/media/img_profile_border.3c6f3646.png [36m304[0m 0.640 ms - -[0m
+[0mGET /static/media/slick.29518378.woff [32m200[0m 0.509 ms - 1380[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): INSERT INTO `Posts` (`idx`,`content`,`location`,`state`,`createdAt`,`updatedAt`,`userIdx`) VALUES (DEFAULT,?,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mPOST /posts [32m200[0m 6.568 ms - 81[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [32m200[0m 3.411 ms - 1081[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx` WHERE `Posts`.`content` LIKE '%#제주도%';
+[0mGET /posts?filter=hashtag&search=%EC%A0%9C%EC%A3%BC%EB%8F%84 [32m200[0m 5.943 ms - 1081[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx` WHERE `Posts`.`content` LIKE '%#제주도맛집%';
+[0mGET /posts?filter=hashtag&search=%EC%A0%9C%EC%A3%BC%EB%8F%84%EB%A7%9B%EC%A7%91 [32m200[0m 2.679 ms - 487[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [32m200[0m 3.467 ms - 1081[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'Uri.' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 258.922 ms - 261[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 2.865 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 2 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 2 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 2 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [32m200[0m 4.109 ms - 178[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 4.835 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 2.772 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 2 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): INSERT INTO `Posts` (`idx`,`content`,`location`,`state`,`createdAt`,`updatedAt`,`userIdx`) VALUES (DEFAULT,?,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mPOST /posts [32m200[0m 5.497 ms - 81[0m
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mGET /static/js/main.9b0a41df.chunk.js.map [36m304[0m 0.807 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 3.112 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 2 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): INSERT INTO `Posts` (`idx`,`content`,`location`,`state`,`createdAt`,`updatedAt`,`userIdx`) VALUES (DEFAULT,?,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+[0mPOST /posts [32m200[0m 6.961 ms - 81[0m
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+Executing (default): INSERT INTO `PostImages` (`idx`,`url`,`state`,`createdAt`,`updatedAt`,`postIdx`) VALUES (DEFAULT,?,?,?,?,?);
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` INNER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL AND `user`.`name` = '유민욱') LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=writer&search=%EC%9C%A0%EB%AF%BC%EC%9A%B1 [36m304[0m 12.944 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [32m200[0m 4.296 ms - 2580[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 3.495 ms - -[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx` WHERE `Posts`.`content` LIKE '%#크리스마스%';
+[0mGET /posts?filter=hashtag&search=%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4 [32m200[0m 2.866 ms - 1601[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 3.004 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유리' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 2 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /follows/%EC%9C%A0%EB%A6%AC [32m200[0m 8.471 ms - 278[0m
+jinsu
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'jinsu' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 2 AND `Messages`.`receiverIdx` = 4) OR (`Messages`.`senderIdx` = 4 AND `Messages`.`receiverIdx` = 2)));
+[0mGET /messages/jinsu [36m304[0m 3.357 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'minuxx' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+[0mPOST /users/login [32m200[0m 289.510 ms - 261[0m
+Executing (default): SELECT `Posts`.`idx`, `Posts`.`content`, `Posts`.`location`, `Posts`.`createdAt`, `user`.`idx` AS `user.idx`, `user`.`name` AS `user.name`, `user`.`profileImgUrl` AS `user.profileImgUrl`, `imgUrls`.`idx` AS `imgUrls.idx`, `imgUrls`.`url` AS `imgUrls.url` FROM `Posts` AS `Posts` LEFT OUTER JOIN `Users` AS `user` ON `Posts`.`userIdx` = `user`.`idx` AND (`user`.`deletedAt` IS NULL) LEFT OUTER JOIN `PostImages` AS `imgUrls` ON `Posts`.`idx` = `imgUrls`.`postIdx`;
+[0mGET /posts?filter=all&search= [36m304[0m 4.152 ms - -[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`idx` = 1 AND `Users`.`state` = 'ACTIVE'));
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+Executing (default): SELECT `Users`.`idx`, `Users`.`email`, `Users`.`name`, `Users`.`id`, `Users`.`password`, `Users`.`profileImgUrl`, `Users`.`state`, `Users`.`createdAt`, `Users`.`updatedAt`, `Users`.`deletedAt`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followingId` AND `Follow`.`followerId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /users [32m200[0m 3.981 ms - 183[0m
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`name` = '유민욱' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `Users`.`idx`, `Users`.`id`, `Users`.`name`, `Users`.`profileImgUrl`, `Follow`.`createdAt` AS `Follow.createdAt`, `Follow`.`updatedAt` AS `Follow.updatedAt`, `Follow`.`followingId` AS `Follow.followingId`, `Follow`.`followerId` AS `Follow.followerId` FROM `Users` AS `Users` INNER JOIN `Follow` AS `Follow` ON `Users`.`idx` = `Follow`.`followerId` AND `Follow`.`followingId` = 1 WHERE (`Users`.`deletedAt` IS NULL);
+[0mGET /follows/%EC%9C%A0%EB%AF%BC%EC%9A%B1 [32m200[0m 3.644 ms - 620[0m
+Uri.
+Executing (default): SELECT `idx`, `email`, `name`, `id`, `password`, `profileImgUrl`, `state`, `createdAt`, `updatedAt`, `deletedAt` FROM `Users` AS `Users` WHERE (`Users`.`deletedAt` IS NULL AND (`Users`.`id` = 'Uri.' AND `Users`.`state` = 'ACTIVE')) LIMIT 1;
+Executing (default): SELECT `idx`, `senderName`, `content` FROM `Messages` AS `Messages` WHERE (`Messages`.`deletedAt` IS NULL AND ((`Messages`.`senderIdx` = 1 AND `Messages`.`receiverIdx` = 2) OR (`Messages`.`senderIdx` = 2 AND `Messages`.`receiverIdx` = 1)));
+[0mGET /messages/Uri. [32m200[0m 3.097 ms - 1228[0m
+Killed
+npm ERR! code ELIFECYCLE
+npm ERR! errno 137
+npm ERR! instagram@0.0.1 start: `node app.js`
+npm ERR! Exit status 137
+npm ERR! 
+npm ERR! Failed at the instagram@0.0.1 start script.
+npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /home/web32/.npm/_logs/2021-12-14T10_15_12_118Z-debug.log

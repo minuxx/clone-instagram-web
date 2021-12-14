@@ -1,13 +1,10 @@
 const express = require("express");
-const { noExtendLeft } = require("sequelize/dist/lib/operators");
-const { isLoggedIn, isNotLoggedIn } = require("../middlewares/auth");
+const path = require("path");
 
 const router = express.Router();
 
-router.use((req, res, next) => {
-  res.locals.user = req.user;
-
-  next();
+router.get("/", (req, res) => {
+  return res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 module.exports = router;

@@ -6,7 +6,7 @@ const jwtMiddleware = (req, res, next) => {
 
   // token does not exist
   if (!token) {
-    return res.json(createRes(401, false, "JWT 토큰이 존재하지 않습니다."));
+    return res.json(createRes(450, false, "JWT 토큰이 존재하지 않습니다."));
   }
 
   // create a promise that decodes the token
@@ -23,7 +23,7 @@ const jwtMiddleware = (req, res, next) => {
     next();
   }).catch((err) => {
     console.error(err);
-    return res.json(createRes(402, false, "JWT 토큰이 유효하지 않습니다."));
+    return res.json(createRes(451, false, "JWT 토큰이 유효하지 않습니다."));
   });
 };
 

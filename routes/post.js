@@ -1,4 +1,5 @@
 const express = require("express");
+const { Op } = require("sequelize/dist");
 const jwtMiddleware = require("../middlewares/auth");
 const { Posts, PostImages } = require("../models");
 const Users = require("../models/user");
@@ -46,14 +47,25 @@ router.post("/", jwtMiddleware, async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
+router.get("/", jwtMiddleware, async (req, res, next) => {
+  const { filter, search } = req.query;
+
   try {
+    let userModel = { model: Users, as: "user", attributes: ["name", "profileImgUrl"] };
+    let whereOption = null;
+
+    if (filter == "writer") {
+      userModel = { model: Users, as: "user", attributes: ["name", "profileImgUrl"], where: { name: search } };
+    } else if (filter == "content") {
+      whereOption = { content: { [Op.substring]: search } };
+    } else if (filter == "hashtag") {
+      whereOption = { content: { [Op.substring]: `#${search}` } };
+    }
+
     const posts = await Posts.findAll({
-      include: [
-        { model: Users, as: "user", attributes: ["id", "profileImgUrl"] },
-        { model: PostImages, as: "imgUrls", attributes: ["idx", "url"] },
-      ],
+      include: [userModel, { model: PostImages, as: "imgUrls", attributes: ["idx", "url"] }],
       attributes: ["idx", "content", "location", "createdAt"],
+      where: whereOption,
     });
 
     return res.json(createRes(200, true, "게시물 조회에 성공했습니다.", { posts }));

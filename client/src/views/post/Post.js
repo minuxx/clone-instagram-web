@@ -6,8 +6,10 @@ import { UserContext } from "../pages/Main";
 import useInputs from "../../hooks/useInputs";
 import { handleFirebaseUpload } from "../../utils/firebase/storage";
 import { postApi } from "../../apis/post";
+import { useNavigate } from "react-router-dom";
 
 function Post() {
+  const navigate = useNavigate();
   const userStore = useContext(UserContext);
   const [localImgs, setLocalImgs] = useState([]);
   const [form, onChange] = useInputs({
@@ -65,6 +67,10 @@ function Post() {
     }
 
     const response = await postApi({ content, urls: urlsOnFirebase });
+
+    if (response.code == 200) {
+      navigate("/home");
+    }
   }, [content, localImgs]);
 
   return (
