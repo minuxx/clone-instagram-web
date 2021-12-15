@@ -21,7 +21,6 @@ function Message() {
 
   const getFollowers = async () => {
     const res = await getFollowersApi(userStore.name);
-
     console.log(res);
 
     handleResponse(res);
